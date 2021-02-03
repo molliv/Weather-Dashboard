@@ -1,40 +1,32 @@
 $(document).ready(function() {
 
   var APIKEY = "b44228de0fff9bb296f65506f3071a2f";
+  var searchBtn = $(".search-button");
+  var currentCity = "";
+  var lastCity = "";
 
   $("#search-button").on("click", function() {
     var cityID = $("#search-input").val();
 
     // clear input box
     $("#search-input").val("");
-
-    searchWeather(cityID);
+    currentWeather(cityID);
   });
 
   $(".history").on("click", "li", function() {
-    searchWeather($(this).text());
+    currenthWeather($(this).text());
   });
 
   function makeRow(text) {
     var li = $("<li>").addClass("list-group-item list-group-item-action").text(text);
-    $(".history").append(li);
+    $("#history").append(li);
   }
-
-  /*
-  function searchWeather(cityID) {
-    $.ajax({
-      type: "GET",
-      url: "https://api.openweathermap.org/data/2.5/weather?q=" + cityID + "&appid=" + APIKEY, 
-      //+ "&units=imperial",
-      dataType: "json",
-      success: function(data) {
-  */
   
-  function searchWeather(cityID) {
-    var requestUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityID + "&appid=" + APIKEY;
+  function currentWeather(cityID) {
+    var requestUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityID + "&units=imperial" + "&appid=" + APIKEY;
 
     fetch(requestUrl)
-      .then(function (response) {
+      .then((response) => {
         return response.json();
       })
       .then(function (data) {
@@ -43,8 +35,7 @@ $(document).ready(function() {
         // create history link for this search
         if (history.indexOf(cityID) === -1) {
           history.push(cityID);
-          window.localStorage.setItem("history", JSON.stringify(history));
-    
+          window.localStorage.setItem("history", JSON.stringify(history));   
           makeRow(cityID);
         }
         
@@ -74,16 +65,9 @@ $(document).ready(function() {
   };
   
   function getForecast(cityID) {
-    /*
-    $.ajax({
-      type: "GET",
-      url: "https://api.openweathermap.org/data/2.5/forecast?q=" + cityID + "&appid=" + APIKEY + "&units=imperial",
-      dataType: "json",
-      success: function(data) {
-        */
-    var requestUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityID + "&appid=" + APIKEY;
+    var requestForecastUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityID + "&units=imperial" + "&appid=" + APIKEY;
 
-    fetch(requestUrl)
+    fetch(requestForecastUrl)
       .then(function (response) {
         return response.json();
       })
@@ -119,17 +103,10 @@ $(document).ready(function() {
   };
 
   function getUVIndex(lat, lon) {
-    /*
-    $.ajax({
-      type: "GET",
-      url: "https://api.openweathermap.org/data/2.5/uvi?appid=" + APIKEY + "&lat=" + lat + "&lon=" + lon,
-      dataType: "json",
-      success: function(data) {
-        */
        
-      var requestUrl = "https://api.openweathermap.org/data/2.5/uvi?appid=" + APIKEY + "&lat=" + lat + "&lon=" + lon;
+      var requestUvUrl = "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=" + APIKEY;
    
-    fetch(requestUrl)
+    fetch(requestUvUrl)
       .then(function (response) {
         return response.json();
         })
@@ -141,13 +118,16 @@ $(document).ready(function() {
         
         // change color depending on uv value
         if (data.value < 3) {
-          btn.addClass("btn-success");
+          //btn.addClass("btn-success");
+          return "green";
         }
         else if (data.value < 7) {
-          btn.addClass("btn-warning");
+          //btn.addClass("btn-warning");
+          return "orange";
         }
         else {
-          btn.addClass("btn-danger");
+          //btn.addClass("btn-danger");
+          return "red";
         }
         
         $("#current .card-body").append(uv.append(btn));
@@ -158,7 +138,14 @@ $(document).ready(function() {
     }
   })
 
-//});
+
+
+var currentDay = moment().format("dddd, MMMM Do");
+function insertCurrentDay() {
+    $("#current-date").text(currentDay);
+};
+insertCurrentDay();
+console.log(currentDay);
 
 document.querySelector("#search-button").addEventListener//("click", getcityID);
 //("click", cityID);
