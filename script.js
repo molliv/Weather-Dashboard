@@ -138,12 +138,14 @@ $(document).ready(function() {
     }
   })
 
-
+$("#clear-storage").on("click", (event) => {
+  localStorage.clear();
+});
 
 var currentDay = moment().format("dddd, MMMM Do");
-function insertCurrentDay() {
+  function insertCurrentDay() {
     $("#current-date").text(currentDay);
-};
+  };
 insertCurrentDay();
 console.log(currentDay);
 
