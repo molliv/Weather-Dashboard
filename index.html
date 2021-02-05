@@ -22,9 +22,10 @@
   <div class="container-fluid">
     <div class="row justify-content-center-around">
       <section class="col-lg-3 card bg-light">
-        <div class="form-inline form-group">
+        <div class="form-inline">
           <label class="search-label" type="text">Search for a City:</label>
-            <input class="search-input" class="form-input w-50" type="text" placeholder="Search by City">
+            <input class="search-input" class="form-input w-50" type="text" id="city"
+            placeholder="Search by City">
             <button type="submit" id="search-button" class="btn btn-primary"><i class="fa fa-search"></i></button>
             
         </div>
@@ -35,12 +36,14 @@
       </section>
 
       <section class="col-lg-9">
-        <div class="row" id="current-weather">
+        <div class="row" id="currentWeather">
+          <div id="current-date"></div>
           <div class="col-9">
-            <h3><span id="current-city"><img id="weather-img" src=""></span></h3>
+            <h3><span id="current-city"><img id="weather-img"></span></h3>
             <p id="temp">Temperature: </p>
             <p id="humidity">Humidity: </p>
             <p id="wind">Wind Speed: </p>
+            <p id="uv">UV Index: </p>
           </div>
         </div>
 
